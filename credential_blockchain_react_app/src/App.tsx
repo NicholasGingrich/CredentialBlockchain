@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Box, Typography } from '../node_modules/@mui/material';
+import { BlockchainProvider } from './BlockchainContext';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-function App() {
-  const [count, setCount] = useState(0)
+import BlockcahinOverview from './BlockchainView';
+import IssueCredential from './IssueCredential';
+import QueryChain from './QueryChain';
 
+const queryClient = new QueryClient();
+
+export function App() {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <QueryClientProvider client={queryClient}>
+        <BlockchainProvider>
+          <Box sx={{ margin: '50px' }}>
+            {/* Title */}
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 5 }}>
+              <Typography variant="h2">
+                Blockchain Based Credential Verification
+              </Typography>
+            </Box>
+
+            {/* Issue and Verify Widgets */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+              <Box sx={{ display: 'flex', gap: 5, width: '100%' }}>
+                <QueryChain />
+                <IssueCredential />
+              </Box>
+
+              {/* View Blockchain Blocks */}
+              <BlockcahinOverview />
+            </Box>
+          </Box>
+        </BlockchainProvider>
+      </QueryClientProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

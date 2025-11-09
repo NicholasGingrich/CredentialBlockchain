@@ -1,0 +1,24 @@
+{
+    "users": [
+        {
+            "name": "Nicholas Gingrich",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkQ3vApV+mLWzjuZnHo5Q\nwRvRhNj3mdgNQdbAVckGMAV506cwmYuYQbtLwL4/oI1dfUzCiKBhSYgijvIsOoQY\nhMey0Yg+1I27X9+C4/95iPYozOyW2UcRt9fKD6iEzP9XS+rJTIPxaedYGq0ccirq\nnMrHZYqh760x07f8Vx9lvvU8fef1SedP8J2Za/KGrBNGAFXdEOVlt/X56n+bg5w7\nenG9wK+u7ShCp0VAFO0uwCLHI8lGbqnjjfrHalTqDufKuL2L1Pl8LLJ1k8cbVKZ3\nEoGAbAFfjr6QlgiM7+JiYmKwr0PmPr4GA9SPy9qQiWFYyU3Crm4clr5jCazsrI8t\nSQIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "Sean Murphy",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsvoPCcIyiLeFtEWUgfLr\nYDHJo+aNPv0mrAXQndtfAu6aQesRlMdypPaqWDp9JI7RnlfFdmQbOhTX5xAnqC5m\nkwpQQD3aojimbDBOPmv9IbrB1eEAB49f3WPYUaxY84h8tc67BbXkkOGXMjyYsPry\niF57hg2e2qmFdMLqrWnXX04tyLHq+A2arXJLGa+s3NIOjOonUVdXojuSgCNvj+CC\nm68tjMJpG6UW+KcR1MoCkwdyBPTJ+r0WcoTFiKZiKIklCd+6RicdwqPQQz8gwyeV\nJcRHwgvs4xtcxQe2GYHAQpk3vOZYd0TAyZbW1LIJ5zJyWmYP0mFc02Tdsua6QhKF\nRwIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "Ryan Murphy",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoLsuhYpPRlbpoPOMHgyQ\nC/fGpxPXKgiRnnY3aBWTiYSkeTfBm9cISIQjEqolQ8nzDyGaJ7iLaisgTLAnYL3a\nWW3q4+/T26axsUqbFY5Kcu4AzJgh6jIvWS/FZO6m///eT9mf32qHlXAvblUp81ep\n4v8wELGQ4aSpHyF/m6EFxs1vZeGdPauvVB1NfXJgj5M+ALjaBD9pLFW948mRWV3q\nDV7rmq3bo4e2rzgUl2T8CdI01QAI133/irlnhHLbRaOvX9Nev5bAiFwqXqmdE90O\nS4TlyzXk3wV8bN/aRf2YIN8L/1HHP8m50rJseaKgTP4gQbungO5xsIogFg2XKfHB\nSQIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "Armaan Munisff",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvlcRMlk609xZ+rmZ1hj/\neV0kkb+I/UiBhjpDsXVftRvt+c/HzeZf7SFp3PVQGIS1NgIIkDrZxAu3AlKLBfAL\ng4iJzemXrI9O6Xzz6VtFnzqUPTCL8SOihZEJxOjgouRxtMZOfwRMdtz7icWn8Sog\n63bcAArBqq/eugyxM53FY8wWG98J8kA8RJmS+ilZAi2XJXscIo4RkkhhItFIfIWU\nqutr/8xzPLD7HDMGkNJXZKVBa3Tc3CR9HdnZ8diK8+tIQw1klNMltrbFLIo2+X7V\nkqkGphvNluoJafstuxLIplMKDj1+5/wy7vwXRQ5cPVESr5JNdNdShoZdqkeNFL9k\nCwIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "Navid Tabrizi",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmteUODCzLEQnTL4qozKO\nrVCI6+1zFGh8iIg9Om97F2KXyUz6iiyA1vhSkGU+HS0e2JFxOniDJfLjQHQzLZRX\nGyyhj2LBMDRChve1LIwj4G9A/5E4i+XbaE94Wm2UrGed6cM/GL3YwPWaaxZSjHQu\nGOpjS09Patd3zhH6YUa6ck2l7Amm3d9HSsxqEYLBg+plTscsnkM5WmWMN5h7H8OC\nO9pBFsEy9utG2tN/CpWiAKE7fpWABjCiu84ymcqHRmADVLA6HxH1jLrBu7yK8422\nODQun3J8zNseXW1woWDtVOt3tyRaLnzVGyujoF14w1Yo0u2WFLSSPnTcYPAINrBS\n1wIDAQAB\n-----END PUBLIC KEY-----"
+        }
+    ]
+}

@@ -6,7 +6,18 @@ import time
 from Crypto.PublicKey import RSA
 from Crypto.Signature import pkcs1_15
 from Crypto.Hash import SHA256
-from flask_server import save_users
+
+def save_users(users, filename="users.json"):
+    """ Writes a new entry to the users.json file """
+    with open(filename, "w") as f:
+        json.dump(users, f, indent=4)
+
+def load_users(filename="./data/users.json"):
+    with open(filename, "r") as f:
+        return json.load(f)
+
+
+
 
 class Block:
     def __init__(self, index, timestamp, credential_data, previous_hash, nonce=0):
@@ -23,7 +34,7 @@ class Block:
         block_string = json.dumps({
             "index": self.index,
             "timestamp": self.timestamp,
-            "credential_data": self.credential_data,
+            "credential_data": self.data,
             "previous_hash": self.previous_hash,
             "nonce": self.nonce
         }, sort_keys=True).encode()
@@ -34,10 +45,9 @@ class Block:
 class Blockchain:
     difficulty = 2 
 
-    def __init__(self, user_registry):
+    def __init__(self):
         self.chain = []
         self.create_genesis_block()
-        self.user_registry = user_registry
 
     def create_genesis_block(self):
         """ Creates the genesis block and adds it to the blockchain """
@@ -71,6 +81,8 @@ class Blockchain:
         self.proof_of_work(new_block)
         self.chain.append(new_block)
 
+        return new_block
+
     def is_chain_valid(self):
         """ Verify each block in the chain is valid """
         for i in range(1, len(self.chain)):
@@ -91,7 +103,7 @@ class Blockchain:
             credential = current.credential_data
             if credential != "Genesis Block":
                 issuer_name = credential["issuer"]
-                public_key = self.users_registry[issuer_name]["public_key"]
+                public_key = self.user_registry[issuer_name]["public_key"]
                 if not verify_signature(public_key, credential):
                     print(f"Invalid signature at block {i}")
                     return False
@@ -128,15 +140,33 @@ def verify_signature(public_key_pem, credential_data):
     except (ValueError, TypeError):
         return False
 
-def initialize_keys(users):
-    """" Initialized keys for each user in json file.
-    TODO: This assumes all users have used the system previously. Need to make it so first time users can register
-     """
-    for issuer in users:
-        if users[issuer]["public_key"] == "":
+
+def initialize_keys():
+    """Load users.json, assign keys to users missing them, and save updates."""
+    users_file = "./data/users.json"
+
+    # Read the JSON file
+    data = load_users()
+    users = data["users"]
+
+    for user in users:
+        if user.get("public_key", "") == "":
             private_key, public_key = generate_rsa_key_pair()
-            users[issuer]["public_key"] = public_key
-            # Store private key locally for issuing credentials
-            with open(f"{issuer}_private.pem", "w") as f:
-                f.write(private_key)
-    save_users(users)
+
+            # Update public_key field in JSON object
+            user["public_key"] = public_key
+
+            # Save private key locally
+            try:
+                filename = f"{user['name'].replace(' ', '_')}_private.pem"
+                with open(f"./data/PEM/{filename}", "wb") as f:
+                    f.write(private_key.encode())
+                print(f" Created PEM file: {filename}")
+            except Exception as err:
+                print(f" Error creating PEM file for {user['name']}: {err}")
+
+    # Write updated JSON back to file
+    with open(users_file, "w") as f:
+        json.dump(data, f, indent=4)
+
+    print("users.json updated with public keys.")

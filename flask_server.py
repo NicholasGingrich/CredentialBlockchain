@@ -1,69 +1,71 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import time
-from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature
 import json
-
-#region Utility Functions
-
-def load_users(filename="users.json"):
-    """ Loads the users.json file
-    TODO: This should be handled by flask route
-     """
-    with open(filename, "r") as f:
-        return json.load(f)
-
-
-def save_users(users, filename="users.json"):
-    """ Writes a new entry to the users.json file """
-    with open(filename, "w") as f:
-        json.dump(users, f, indent=4)
-
-#endregion
-
-#region Flask Code
+from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature, load_users
 
 app = Flask(__name__)
+
+# Enable CORS globally for frontend
+CORS(app, origins="*")
+
 blockchain = Blockchain()
-users_registry = load_users()
-initialize_keys(users_registry)
+initialize_keys()
+
+# ------------------ Routes ------------------
 
 @app.route("/issue", methods=["POST"])
 def issue_credential():
     data = request.get_json()
     issuer = data["issuer"]
     recipient = data["recipient"]
-    degree = data["degree"]
+    credential_type = data["credential_type"]
     date_issued = data.get("date_issued", time.strftime("%Y-%m-%d"))
 
-    # Load issuer private key
-    with open(f"{issuer}_private.pem", "r") as f:
+    with open(f"./data/PEM/{issuer.replace(' ', '_')}_private.pem", "r") as f:
         private_key = f.read()
 
     credential_data = {
         "issuer": issuer,
         "recipient": recipient,
-        "degree": degree,
+        "credential_type": credential_type,
         "date_issued": date_issued
     }
+
     signed_credential = sign_credential(private_key, credential_data)
     new_block = blockchain.add_block(signed_credential)
     return jsonify({"message": "Credential issued", "block_index": new_block.index})
 
 @app.route("/verify/<recipient_name>", methods=["GET"])
 def verify_recipient(recipient_name):
-    result = []
-    for block in blockchain.chain[1:]:  # skip Genesis block
-        if block.credential_data["recipient"] == recipient_name:
-            valid = verify_signature(
-                users_registry[block.credential_data["issuer"]]["public_key"],
-                block.credential_data
-            )
-            result.append({
-                "block_index": block.index,
-                "credential": block.credential_data,
-                "valid": valid
-            })
-    return jsonify(result)
+    requested_type = request.args.get("type")
+    if not requested_type:
+        return jsonify({"error": "Missing 'type' query parameter"}), 400
+
+    for block in blockchain.chain[1:]:
+        credential = block.data
+        if credential.get("recipient") != recipient_name or credential.get("credential_type") != requested_type:
+            continue
+
+        issuer = credential.get("issuer")
+        users_registry = load_users()
+        issuer_obj = next((user for user in users_registry["users"] if user["name"] == issuer), None)
+
+        valid = False
+        if issuer_obj:
+            public_key = issuer_obj["public_key"]
+            print("Public Key:")
+            print(public_key)
+            valid = verify_signature(public_key, credential)
+
+        return jsonify({
+            "block_index": block.index,
+            "credential": credential,
+            "valid": valid
+        }), 200
+
+    return jsonify({"block_index": None, "credential": None, "valid": False}), 200
+
 
 @app.route("/chain", methods=["GET"])
 def get_chain():
@@ -72,13 +74,12 @@ def get_chain():
         chain_data.append({
             "index": block.index,
             "timestamp": block.timestamp,
-            "credential_data": block.credential_data,
+            "credential_data": block.data,
             "previous_hash": block.previous_hash,
             "hash": block.hash
         })
     return jsonify(chain_data)
 
-#endregion
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
