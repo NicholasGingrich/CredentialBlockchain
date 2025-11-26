@@ -3,16 +3,22 @@ from flask_cors import CORS
 import time
 import json
 from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature, load_users
+import pymysql
 
 app = Flask(__name__)
 
-# Enable CORS globally for frontend
 CORS(app, origins="*")
 
 blockchain = Blockchain()
-initialize_keys()
 
-# ------------------ Routes ------------------
+def get_connection():
+    return pymysql.connect(
+        host="localhost",
+        user="root",
+        password="b0st0nuniv2023",
+        database="final_project_db",
+        cursorclass=pymysql.cursors.DictCursor
+    )
 
 @app.route("/issue", methods=["POST"])
 def issue_credential():
@@ -71,20 +77,44 @@ def verify_recipient(recipient_name):
 
     return jsonify({"block_index": None, "credential": None, "valid": False}), 200
 
+@app.route("/register_user", methods=["POST"])
+def register_user():
+    data = request.get_json()
+    username = data["username"]
+    password_hash = data["password"]
 
-@app.route("/chain", methods=["GET"])
-def get_chain():
-    chain_data = []
-    for block in blockchain.chain:
-        chain_data.append({
-            "index": block.index,
-            "timestamp": block.timestamp,
-            "credential_data": block.data,
-            "previous_hash": block.previous_hash,
-            "hash": block.hash
-        })
-    return jsonify(chain_data)
+    conn = get_connection()
+    cur = conn.cursor()
 
+    sql = "INSERT INTO users (username, password_hash) VALUES (%s, %s)"
+    cur.execute(sql, (username, password_hash))
+
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return jsonify({"success": True})
+
+@app.route("/verify_user", methods=["POST"])
+def verify_user():
+    data = request.get_json()
+    username = data["username"]
+    password_hash = data["password"]
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    sql = "SELECT * FROM users WHERE username=%s AND password_hash=%s LIMIT 1"
+    cur.execute(sql, (username, password_hash))
+    user = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if user:
+        return {"success": True}
+    else:
+        return {"success": False, "message": "Invalid username or password"}
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
