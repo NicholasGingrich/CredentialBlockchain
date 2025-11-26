@@ -39,15 +39,20 @@ def issue_credential():
 @app.route("/verify/<recipient_name>", methods=["GET"])
 def verify_recipient(recipient_name):
     requested_type = request.args.get("type")
+    requested_issuer = request.args.get("issuer")
     if not requested_type:
         return jsonify({"error": "Missing 'type' query parameter"}), 400
+    
+    if not requested_issuer:
+        return jsonify({"error": "Missing 'issuer' query parameter"}), 400
 
     for block in blockchain.chain[1:]:
         credential = block.data
-        if credential.get("recipient") != recipient_name or credential.get("credential_type") != requested_type:
+        issuer = credential.get("issuer")
+
+        if credential.get("recipient") != recipient_name or credential.get("credential_type") != requested_type or issuer != requested_issuer:
             continue
 
-        issuer = credential.get("issuer")
         users_registry = load_users()
         issuer_obj = next((user for user in users_registry["users"] if user["name"] == issuer), None)
 

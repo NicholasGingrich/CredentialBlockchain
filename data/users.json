@@ -19,6 +19,14 @@
         {
             "name": "Navid Tabrizi",
             "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmteUODCzLEQnTL4qozKO\nrVCI6+1zFGh8iIg9Om97F2KXyUz6iiyA1vhSkGU+HS0e2JFxOniDJfLjQHQzLZRX\nGyyhj2LBMDRChve1LIwj4G9A/5E4i+XbaE94Wm2UrGed6cM/GL3YwPWaaxZSjHQu\nGOpjS09Patd3zhH6YUa6ck2l7Amm3d9HSsxqEYLBg+plTscsnkM5WmWMN5h7H8OC\nO9pBFsEy9utG2tN/CpWiAKE7fpWABjCiu84ymcqHRmADVLA6HxH1jLrBu7yK8422\nODQun3J8zNseXW1woWDtVOt3tyRaLnzVGyujoF14w1Yo0u2WFLSSPnTcYPAINrBS\n1wIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "Georgia Tech",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw5hopSnGz+n/p5yG3ZKp\nG1NsY6GWT7De3Pta3OXyj2I3BuOphPf/EX54g33sG2ly3xv7JsXo6Vq4fulTAYJ3\nnqNNiOZmxO/z/jMVcpHgqsnTEJUt0JIsy22bNJUA9qXnvaIyxLsVPF5WTLFEcEvU\nYFljNrU2z8Ok2By2OiOnBwMoC8ESviTHwsEnvcECXQmaS4PboBsrXnlP6CEqM9sP\nrVgtWKPmsa/GJli0I7GGHSmpukzvLL/ZPITb5kc+B4LWlH8yjOW/zdayxxVlr7iA\np68na6nax2GrI1B0nNyVtr4M/1tZg5juesqyYwgXjT8MniO9jWtoF0Jv7LIdr2xZ\nMwIDAQAB\n-----END PUBLIC KEY-----"
+        },
+        {
+            "name": "UMass Amherst",
+            "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA/In7JX7Mxss7j1jJI69M\nu/00d/k4tlDiRmK6m64P4qaFYX4xPKhBiYuYnuUOjh37d3CKTaoC/jikFsloBOeB\nfBM4dU0fFCjwBC7W3G504ZSHOSyTbMBvf1wDXveN4nAy0Tc8SMNuJlY0P0ZKmV0I\nvjbLqFO0U/c3rlc0tJkcQnsgxEgCCw7P+ZFqBd2FNeOeX+Y/JIXxFQ1UQduaL7AA\ncQofg5EXBtwznnMGYvQ557PajAYVVixKR0FjjbTInAIuXznhITHkBKOMdmt0NMgs\nTrVjtv/wpFGjjdRYH2A58PhUPEtrq/w83uzWV0M8/TbgZc4OfxWdlyDkqSL8TkoB\nFQIDAQAB\n-----END PUBLIC KEY-----"
         }
     ]
 }

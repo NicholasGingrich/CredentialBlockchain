@@ -10,10 +10,11 @@ import {
 export async function verifyCredential(
   recipientName: string,
   credentialType: string,
+  issuer: string,
 ): Promise<VerifiedCredential | null> {
   try {
     const response = await fetch(
-      `http://localhost:5000/verify/${encodeURIComponent(recipientName)}?type=${encodeURIComponent(credentialType)}`,
+      `http://localhost:5000/verify/${encodeURIComponent(recipientName)}?type=${encodeURIComponent(credentialType)}&issuer=${encodeURIComponent(issuer)}`,
     );
 
     if (!response.ok) {

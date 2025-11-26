@@ -124,7 +124,10 @@ export default function IssueCredential() {
           <Box sx={{ paddingTop: '20px', paddingBottom: '10px' }}>
             <Divider sx={{ backgroundColor: '#fff' }} />
           </Box>
-          <Typography variant="h6">{`Result: ${resultMessage}`}</Typography>
+          <Typography variant="h6" fontSize={16}>
+            <strong>Result: </strong>
+            {resultMessage}
+          </Typography>
         </Box>
       </Box>
     </Box>

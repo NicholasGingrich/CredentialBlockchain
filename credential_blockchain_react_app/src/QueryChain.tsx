@@ -18,28 +18,29 @@ export const names = [
   'Armaan Munisff',
   'Navid Tabrizi',
   'Ryan Murphy',
+  'Georgia Tech',
+  'UMass Amherst',
 ];
 
 export default function QueryChain() {
   const [selectedName, setSelectedName] = useState('');
   const [credentialType, setSelectedCredentialType] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
+  const [issuer, setIssuer] = useState('');
 
   const handleCredentialVerification = async (
     name: string,
     type: CredentialType,
   ) => {
-    const queryResult = await verifyCredential(name, type);
+    const queryResult = await verifyCredential(name, type, issuer);
 
     if (queryResult) {
       if (queryResult.valid) {
         setValidationMessage(
-          `Valid ${credentialType} credential found for ${selectedName}`,
+          `Valid ${credentialType} issued to ${selectedName} by ${issuer}`,
         );
       } else {
-        setValidationMessage(
-          `Could not find valid ${credentialType} credential for ${selectedName}`,
-        );
+        setValidationMessage('Credential Not Found');
       }
     } else {
       setValidationMessage('Error retrieving credential data');
@@ -113,6 +114,19 @@ export default function QueryChain() {
               </MenuItem>
             ))}
           </TextField>
+          <TextField
+            label="Issuer"
+            value={issuer}
+            select
+            sx={{ width: '100%' }}
+            onChange={(evt) => setIssuer(evt.target.value)}
+          >
+            {names.map((name) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </TextField>
         </Box>
       </Box>
 
@@ -123,7 +137,10 @@ export default function QueryChain() {
 
       {/* Query Result */}
       <Box>
-        <Typography variant="h6">Result: {validationMessage}</Typography>
+        <Typography variant="h6" fontSize={16}>
+          <strong>Result: </strong>
+          {validationMessage}
+        </Typography>
       </Box>
     </Box>
   );

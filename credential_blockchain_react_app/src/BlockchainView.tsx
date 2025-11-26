@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useBlockchain } from './BlockchainContext';
 import { Block, CurrentChainResponse } from './types';
@@ -51,16 +51,61 @@ function Block({ block }: { block: Block }) {
         border: '1px solid #fff',
         borderRadius: 2,
         height: '150px',
-        width: '200px',
+        width: '280px',
         padding: '10px',
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         color: '#fff',
         bgcolor: '#242424',
       }}
     >
-      <Typography>Block #{block.index}</Typography>
+      {block.index === 0 ? (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            width: '100%',
+          }}
+        >
+          <Typography>Genesis</Typography>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignContent: 'flex-start',
+            }}
+          >
+            <Typography>Block #{block.index}</Typography>
+          </Box>
+          <Divider sx={{ backgroundColor: '#fff' }} />
+
+          <Box>
+            <Typography>
+              <strong>Credential: </strong>{' '}
+              {block.credential_data.credential_type}
+            </Typography>
+            <Typography>
+              <strong>Recipient: </strong>
+              {block.credential_data.recipient}
+            </Typography>
+            <Typography>
+              <strong>Issuer: </strong>
+              {block.credential_data.issuer}
+            </Typography>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }
