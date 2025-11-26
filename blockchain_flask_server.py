@@ -3,6 +3,7 @@ from flask_cors import CORS
 import time
 import json
 from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature, load_users
+import requests
 
 app = Flask(__name__)
 
@@ -31,6 +32,7 @@ def issue_credential():
 
     signed_credential = sign_credential(private_key, credential_data)
     new_block = blockchain.add_block(signed_credential)
+    broadcast_chain()
     return jsonify({"message": "Credential issued", "block_index": new_block.index})
 
 @app.route("/verify/<recipient_name>", methods=["GET"])
@@ -82,6 +84,32 @@ def get_chain():
         })
     return jsonify(chain_data)
 
+@app.route("/sync_chain", methods=["GET"])
+def get_chain():
+    data = request.get_json()
+    chain = data["chain"]
+
+    # Check if current or incoming chain is longer and icoming is longer replace
+    if len(blockchain.chain) < len(chain):
+        blockchain.chain = chain
+        blockchain.chain = chain
+        print("Chain has been updated with a longer chain")
+
+def broadcast_chain():
+    for node in blockchain.neighbors:
+        port = node.port
+        url = f"http://{node.host}:{port}/sync_chain"
+        try:
+            response = requests.post(
+                url,
+                json={"chain": [block.to_dict() for block in blockchain.chain]}
+            )
+            if response.status_code == 200:
+                print(f"Chain successfully sent to {node.host}:{port}")
+            else:
+                print(f"Failed to send chain to {node.host}:{port}, status code: {response.status_code}")
+        except Exception as e:
+            print(f"Error connecting to {node.host}:{port} - {e}")
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
