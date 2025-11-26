@@ -80,7 +80,7 @@ export default function LoginScreen() {
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 5 }}>
-          <Typography variant="h2">Centralized Blockchain Storage</Typography>
+          <Typography variant="h2">Centralized Credential Storage</Typography>
         </Box>
 
         <Box
