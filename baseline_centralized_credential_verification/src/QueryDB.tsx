@@ -32,10 +32,10 @@ export default function QueryDB() {
     name: string,
     type: CredentialType,
   ) => {
-    const queryResult = await verifyCredential(name, type, issuer);
+    const success = await verifyCredential(name, type, issuer);
 
-    if (queryResult) {
-      if (queryResult.valid) {
+    if (success) {
+      if (success) {
         setValidationMessage(
           `Valid ${credentialType} issued to ${selectedName} by ${issuer}`,
         );

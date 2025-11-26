@@ -8,7 +8,6 @@ import {
   Divider,
 } from '@mui/material';
 import { useState } from 'react';
-import { useBaselineCentralizedContext } from './BaselineCentralizedContext';
 import { names } from './QueryDB';
 import {
   credentialTypes,
@@ -29,10 +28,12 @@ export default function IssueCredential() {
       credential_type: credentialType,
       recipient: recipient,
     };
-    const issueResult: IssueCredentialResponse =
-      await issueCredential(credential);
+    const issueResult = await issueCredential(credential);
 
-    setResultMessage(issueResult.message);
+    const message = issueResult
+      ? `${credentialType} issued to ${recipient} successfully.`
+      : 'Error issuing credential';
+    setResultMessage(message);
   };
 
   return (

@@ -23,59 +23,56 @@ def get_connection():
 @app.route("/issue", methods=["POST"])
 def issue_credential():
     data = request.get_json()
-    issuer = data["issuer"]
-    recipient = data["recipient"]
-    credential_type = data["credential_type"]
+    issuer = data.get("issuer")
+    recipient = data.get("recipient")
+    credential_type = data.get("credential_type")
     date_issued = data.get("date_issued", time.strftime("%Y-%m-%d"))
 
-    with open(f"./data/PEM/{issuer.replace(' ', '_')}_private.pem", "r") as f:
-        private_key = f.read()
+    try:
+        conn = get_connection()
+        cur = conn.cursor()
 
-    credential_data = {
-        "issuer": issuer,
-        "recipient": recipient,
-        "credential_type": credential_type,
-        "date_issued": date_issued
-    }
+        sql = """
+        INSERT INTO credentials (issuer, recipient, credential_type, date_issued)
+        VALUES (%s, %s, %s, %s)
+        """
+        cur.execute(sql, (issuer, recipient, credential_type, date_issued))
+        conn.commit()
 
-    signed_credential = sign_credential(private_key, credential_data)
-    new_block = blockchain.add_block(signed_credential)
-    return jsonify({"message": "Credential issued", "block_index": new_block.index})
+        cur.close()
+        conn.close()
 
-@app.route("/verify/<recipient_name>", methods=["GET"])
-def verify_recipient(recipient_name):
-    requested_type = request.args.get("type")
-    requested_issuer = request.args.get("issuer")
-    if not requested_type:
-        return jsonify({"error": "Missing 'type' query parameter"}), 400
-    
-    if not requested_issuer:
-        return jsonify({"error": "Missing 'issuer' query parameter"}), 400
+        return jsonify({"success": True})
 
-    for block in blockchain.chain[1:]:
-        credential = block.data
-        issuer = credential.get("issuer")
+    except Exception as e:
+        print("Error issuing credential:", e)
+        return jsonify({"success": False})
 
-        if credential.get("recipient") != recipient_name or credential.get("credential_type") != requested_type or issuer != requested_issuer:
-            continue
 
-        users_registry = load_users()
-        issuer_obj = next((user for user in users_registry["users"] if user["name"] == issuer), None)
 
-        valid = False
-        if issuer_obj:
-            public_key = issuer_obj["public_key"]
-            print("Public Key:")
-            print(public_key)
-            valid = verify_signature(public_key, credential)
+@app.route("/verify", methods=["POST"])
+def verify_credential():
+    data = request.get_json()
+    issuer = data["issuer"]
+    credential_type = data["credentialType"]
+    recipient_name = data["recipientName"]
 
-        return jsonify({
-            "block_index": block.index,
-            "credential": credential,
-            "valid": valid
-        }), 200
+    conn = get_connection()
+    cur = conn.cursor()
 
-    return jsonify({"block_index": None, "credential": None, "valid": False}), 200
+    sql = "SELECT * FROM credentials WHERE issuer=%s AND recipient=%s AND credential_type=%s LIMIT 1"
+    cur.execute(sql, (issuer, recipient_name, credential_type))
+    user = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if user:
+        return {"success": True}
+    else:
+        return {"success": False, "message": "Invalid username or password"}
+
+
 
 @app.route("/register_user", methods=["POST"])
 def register_user():

@@ -11,28 +11,39 @@ export async function verifyCredential(
   recipientName: string,
   credentialType: string,
   issuer: string,
-): Promise<VerifiedCredential | null> {
+): Promise<boolean> {
   try {
-    const response = await fetch(
-      `http://localhost:5000/verify/${encodeURIComponent(recipientName)}?type=${encodeURIComponent(credentialType)}&issuer=${encodeURIComponent(issuer)}`,
-    );
+    const payload = {
+      recipientName: recipientName,
+      credentialType: credentialType,
+      issuer: issuer,
+    };
+    const response = await fetch('http://localhost:5000/verify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
     if (!response.ok) {
-      console.error('Request failed:', response.status, response.statusText);
-      return null;
+      const text = await response.text();
+      throw new Error(
+        `Failed to verify credential: ${response.status} - ${text}`,
+      );
     }
 
-    const data = (await response.json()) as VerifiedCredential;
-    return data;
+    const responseJson = await response.json();
+    return responseJson.success === true;
   } catch (error) {
     console.error('Error verifying credential:', error);
-    return null;
+    return false;
   }
 }
 
 export async function issueCredential(
   credential: IssueCredentialRequest,
-): Promise<IssueCredentialResponse> {
+): Promise<boolean> {
   try {
     const response = await fetch('http://localhost:5000/issue', {
       method: 'POST',
@@ -49,11 +60,11 @@ export async function issueCredential(
       );
     }
 
-    const data: IssueCredentialResponse = await response.json();
-    return data;
+    const responseJson = await response.json();
+    return responseJson.success === true;
   } catch (error) {
     console.error('Error issuing credential:', error);
-    return { message: 'Error issuing credential', block_index: null };
+    return false;
   }
 }
 
