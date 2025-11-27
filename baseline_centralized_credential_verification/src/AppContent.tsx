@@ -14,7 +14,13 @@ export default function AppContent() {
   return (
     <>
       <Box sx={{ margin: '50px' }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 5 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            marginBottom: 5,
+          }}
+        >
           <Typography variant="h2">Centralized Credential Storage</Typography>
         </Box>
 
@@ -23,9 +29,6 @@ export default function AppContent() {
             <QueryDB />
             <IssueCredential />
           </Box>
-
-          {/* View Blockchain Blocks */}
-          {/* <BlockcahinOverview /> */}
         </Box>
       </Box>
     </>

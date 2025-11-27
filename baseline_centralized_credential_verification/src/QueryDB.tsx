@@ -33,17 +33,12 @@ export default function QueryDB() {
     type: CredentialType,
   ) => {
     const success = await verifyCredential(name, type, issuer);
-
     if (success) {
-      if (success) {
-        setValidationMessage(
-          `Valid ${credentialType} issued to ${selectedName} by ${issuer}`,
-        );
-      } else {
-        setValidationMessage('Credential Not Found');
-      }
+      setValidationMessage(
+        `Valid ${credentialType} issued to ${selectedName} by ${issuer}`,
+      );
     } else {
-      setValidationMessage('Error retrieving credential data');
+      setValidationMessage('Credential Not Found');
     }
   };
 
@@ -60,13 +55,11 @@ export default function QueryDB() {
         flexDirection: 'column',
       }}
     >
-      {/* Title */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
           <Typography variant="h6">Query Issued Credentials</Typography>
         </Box>
       </Box>
-      {/* Textfields and Button */}
       <Box
         sx={{
           display: 'flex',

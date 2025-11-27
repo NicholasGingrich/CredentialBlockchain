@@ -14,21 +14,16 @@ export function App() {
       <QueryClientProvider client={queryClient}>
         <BlockchainProvider>
           <Box sx={{ margin: '50px' }}>
-            {/* Title */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 5 }}>
               <Typography variant="h2">
                 Blockchain Based Credential Verification
               </Typography>
             </Box>
-
-            {/* Issue and Verify Widgets */}
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
               <Box sx={{ display: 'flex', gap: 5, width: '100%' }}>
                 <QueryChain />
                 <IssueCredential />
               </Box>
-
-              {/* View Blockchain Blocks */}
               <BlockcahinOverview />
             </Box>
           </Box>

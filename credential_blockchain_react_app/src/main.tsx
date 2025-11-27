@@ -5,15 +5,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import './index.css';
 import App from './App';
 
-// Create a custom MUI theme
 const theme = createTheme({
   palette: {
     background: {
-      default: '#242424', // your original color
-      paper: '#242424', // optional, for cards/panels
+      default: '#242424',
+      paper: '#242424',
     },
     text: {
-      primary: '#fff', // ensures TextFields and labels are visible
+      primary: '#fff',
     },
   },
   components: {
@@ -45,14 +44,14 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         icon: {
-          color: 'white', // dropdown arrow
+          color: 'white',
         },
       },
     },
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          color: 'white', // affects icons inside TextField including the "x"
+          color: 'white',
         },
       },
     },

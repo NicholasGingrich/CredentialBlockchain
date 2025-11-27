@@ -144,19 +144,13 @@ def verify_signature(public_key_pem, credential_data):
 def initialize_keys():
     """Load users.json, assign keys to users missing them, and save updates."""
     users_file = "./data/users.json"
-
-    # Read the JSON file
     data = load_users()
     users = data["users"]
 
     for user in users:
         if user.get("public_key", "") == "":
             private_key, public_key = generate_rsa_key_pair()
-
-            # Update public_key field in JSON object
             user["public_key"] = public_key
-
-            # Save private key locally
             try:
                 filename = f"{user['name'].replace(' ', '_')}_private.pem"
                 with open(f"./data/PEM/{filename}", "wb") as f:

@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import time
-import json
 from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature, load_users
 import requests
 
@@ -89,7 +88,6 @@ def get_chain():
     data = request.get_json()
     chain = data["chain"]
 
-    # Check if current or incoming chain is longer and icoming is longer replace
     if len(blockchain.chain) < len(chain):
         blockchain.chain = chain
         blockchain.chain = chain
@@ -100,14 +98,10 @@ def broadcast_chain():
         port = node.port
         url = f"http://{node.host}:{port}/sync_chain"
         try:
-            response = requests.post(
+            requests.post(
                 url,
                 json={"chain": [block.to_dict() for block in blockchain.chain]}
             )
-            if response.status_code == 200:
-                print(f"Chain successfully sent to {node.host}:{port}")
-            else:
-                print(f"Failed to send chain to {node.host}:{port}, status code: {response.status_code}")
         except Exception as e:
             print(f"Error connecting to {node.host}:{port} - {e}")
 

@@ -28,20 +28,3 @@ export type IssueCredentialRequest = {
   credential_type: string;
   date_issued?: string;
 };
-
-export type IssueCredentialResponse = {
-  message: string;
-  block_index: number;
-};
-
-export type Block = {
-  index: number;
-  timestamp: string;
-  credential_data: any;
-  previous_hash: string;
-  hash: string;
-};
-
-export type CurrentChainResponse = {
-  blocks: Block[];
-};

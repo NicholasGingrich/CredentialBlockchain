@@ -35,11 +35,8 @@ export default function LoginScreen() {
       return;
     }
 
-    // Handle login request
     if (!newAccount) {
       const isValidLogin = await verifyLogin(username, password);
-      //   const isValidLogin = true;
-
       if (isValidLogin) {
         showSnack('Login successful', 'success');
         await new Promise((r) => setTimeout(r, 2000));
@@ -48,7 +45,6 @@ export default function LoginScreen() {
         showSnack('Invalid username or password', 'error');
       }
     } else {
-      //handle create new account request
       const success = registerNewUser(username, password);
 
       if (success) {
@@ -136,7 +132,6 @@ export default function LoginScreen() {
         </Box>
       </Box>
 
-      {/* Snackbar */}
       <Snackbar
         open={snack.open}
         autoHideDuration={3000}

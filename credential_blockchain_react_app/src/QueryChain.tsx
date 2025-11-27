@@ -57,7 +57,6 @@ export default function QueryChain() {
         bgcolor: '#333',
       }}
     >
-      {/* Title */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
           <Typography variant="h6">Query Issued Credentials</Typography>
@@ -83,7 +82,6 @@ export default function QueryChain() {
           </Button>
         </Box>
       </Box>
-      {/* Textfields and Button */}
       <Box
         sx={{
           display: 'flex',
@@ -129,13 +127,9 @@ export default function QueryChain() {
           </TextField>
         </Box>
       </Box>
-
-      {/* Divider */}
       <Box sx={{ paddingTop: '20px', paddingBottom: '10px' }}>
         <Divider sx={{ backgroundColor: '#fff' }} />
       </Box>
-
-      {/* Query Result */}
       <Box>
         <Typography variant="h6" fontSize={16}>
           <strong>Result: </strong>

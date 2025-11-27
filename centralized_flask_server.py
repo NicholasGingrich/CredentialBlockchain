@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import time
-import json
-from blockchain import Blockchain, initialize_keys, sign_credential, verify_signature, load_users
 import pymysql
 
 app = Flask(__name__)
 
 CORS(app, origins="*")
-
-blockchain = Blockchain()
 
 def get_connection():
     return pymysql.connect(

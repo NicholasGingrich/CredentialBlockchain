@@ -122,7 +122,6 @@ function Connector() {
         alignItems: 'flex-start',
       }}
     >
-      {/* Horizontal line starting near bottom */}
       <Box
         sx={{
           position: 'absolute',
@@ -133,7 +132,6 @@ function Connector() {
           bgcolor: '#fff',
         }}
       />
-      {/* Vertical line going up */}
       <Box
         sx={{
           position: 'absolute',
@@ -144,7 +142,6 @@ function Connector() {
           bgcolor: '#fff',
         }}
       />
-      {/* Horizontal line to next block */}
       <Box
         sx={{
           position: 'absolute',
